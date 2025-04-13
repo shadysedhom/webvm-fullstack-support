@@ -1,5 +1,10 @@
 FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y nodejs npm
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+RUN useradd -m user && echo "user:password" | chpasswd
 WORKDIR /home/user/
 ENV HOME="/home/user" TERM="xterm" USER="user" SHELL="/bin/bash" LANG="en_US.UTF-8"
 CMD ["/bin/bash"]
